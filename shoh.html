@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8">
+  <title>Fast Food Menu</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #111;
+      color: #fff;
+    }
+
+    header {
+      text-align: center;
+      padding: 30px 15px;
+      background: #000;
+    }
+
+    header h1 {
+      margin: 0;
+      color: #f7c600;
+      font-size: 32px;
+    }
+
+    header p {
+      color: #ccc;
+      margin-top: 6px;
+    }
+
+    section {
+      padding: 20px;
+      max-width: 520px;
+      margin: auto;
+    }
+
+    h2 {
+      color: #f7c600;
+      margin-bottom: 15px;
+    }
+
+    .menu-item {
+      background: #1c1c1c;
+      padding: 15px;
+      border-radius: 10px;
+      margin-bottom: 12px;
+    }
+
+    .menu-item h3 {
+      margin: 0;
+      font-size: 18px;
+    }
+
+    .menu-item span {
+      float: right;
+      color: #f7c600;
+      font-weight: bold;
+    }
+
+    .menu-item p {
+      color: #ccc;
+      font-size: 14px;
+      margin-top: 8px;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 12px;
+      margin: 8px 0;
+      border-radius: 8px;
+      border: none;
+      font-size: 16px;
+    }
+
+    textarea {
+      resize: none;
+      height: 90px;
+    }
+
+    .btn {
+      width: 100%;
+      padding: 14px;
+      margin-top: 10px;
+      background: #f7c600;
+      border: none;
+      border-radius: 8px;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .btn.secondary {
+      background: #333;
+      color: #fff;
+    }
+
+    footer {
+      text-align: center;
+      color: #777;
+      padding: 20px;
+      font-size: 14px;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>🍔 Smash1 Fast Food</h1>
+  <p>Tez • Mazali • Issiq</p>
+</header>
+
+<section>
+  <h2>📋 Menyu</h2>
+
+  <!-- 🍔 BURGER -->
+  <div class="menu-item">
+    <h3>Burger <span>35 000 so‘m</span></h3>
+    <p>
+      Mol go‘shti (smash), cheddar pishloq,
+      karamellangan piyoz, tuzlangan bodring,
+      maxsus sous, brioche bulochka
+    </p>
+  </div>
+
+  <!-- 🍔 DOUBLE BURGER -->
+  <div class="menu-item">
+    <h3>Double Burger <span>45 000 so‘m</span></h3>
+    <p>
+      2x mol go‘shti, 2x cheddar pishloq,
+      karamellangan piyoz, bodring,
+      maxsus sous, brioche bulochka
+    </p>
+  </div>
+
+  <!-- 🌭 HOT-DOG -->
+  <div class="menu-item">
+    <h3>Hot-dog <span>25 000 so‘m</span></h3>
+    <p>
+      Sosiska, yumshoq hot-dog noni,
+      karam salati, tuzlangan bodring,
+      ketchup va mayo sous
+    </p>
+  </div>
+
+  <!-- 🍗 CHICKEN BURGER -->
+  <div class="menu-item">
+    <h3>Chicken Burger <span>30 000 so‘m</span></h3>
+    <p>
+      Qarsildoq tovuq go‘shti,
+      salat bargi, pomidor,
+      maxsus mayo sous, yumshoq bulochka
+    </p>
+  </div>
+
+  <!-- 🍟 COMBO -->
+  <div class="menu-item">
+    <h3>Combo Set <span>50 000 so‘m</span></h3>
+    <p>
+      Istalgan burger yoki hot-dog,
+      kartoshka fri, ichimlik
+    </p>
+  </div>
+</section>
+
+<section>
+  <h2>📦 Buyurtma berish</h2>
+
+  <form id="orderForm">
+    <input type="text" id="name" placeholder="Ismingiz" required>
+    <input type="text" id="phone" placeholder="Telefon raqam" required>
+    <textarea id="order" placeholder="Buyurtma (masalan: Burger x1, Hot-dog x1)" required></textarea>
+
+    <button type="button" class="btn secondary" onclick="getLocation()">
+      📍 Lokatsiyani qo‘shish
+    </button>
+
+    <button type="submit" class="btn">
+      Telegramga yuborish
+    </button>
+  </form>
+</section>
+
+<footer>
+  © 2026 Smash1 Fast Food
+</footer>
+
+<script>
+let userLocation = "";
+
+function getLocation() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+      function(pos) {
+        userLocation =
+          "📍 Lokatsiya: https://maps.google.com/?q=" +
+          pos.coords.latitude + "," +
+          pos.coords.longitude;
+        alert("✅ Lokatsiya qo‘shildi");
+      },
+      function() {
+        alert("❌ Lokatsiya olinmadi");
+      }
+    );
+  }
+}
+
+document.getElementById("orderForm").addEventListener("submit", function(e) {
+  e.preventDefault();
+
+  const name = document.getElementById("name").value;
+  const phone = document.getElementById("phone").value;
+  const order = document.getElementById("order").value;
+
+  let text =
+    "📦 Yangi buyurtma!\n\n" +
+    "👤 Ism: " + name + "\n" +
+    "📞 Tel: " + phone + "\n" +
+    "🍽 Buyurtma: " + order + "\n";
+
+  text += userLocation || "📍 Lokatsiya: yuborilmadi";
+
+  const botUsername = "smash1_orders"; // 👈 BOT USERNAME
+  const url =
+    "https://t.me/" +
+    botUsername +
+    "?text=" +
+    encodeURIComponent(text);
+
+  window.open(url, "_blank");
+});
+</script>
+
+</body>
+</html>
